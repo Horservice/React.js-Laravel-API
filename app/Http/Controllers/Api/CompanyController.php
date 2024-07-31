@@ -11,41 +11,44 @@ use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
+
     // GET /api/companies
     public function index()
     {
         $company = CompanyResource::collection(Company::all());
-        return response()->json([
+
+        $reponse = array(
             'success' => true,
             'message' => 'Company index successfully',
             'data' => $company
-        ], 200);
+        );
 
+        return response()->json($reponse,200);
 
     }
 
     // POST /api/companies
     public function store(CompanyRequest $request)
     {
-
         $company = Company::create($request->validated());
-        //return new CompanyResource($company);
-        return response()->json([
+        $reponse = array(
             'success' => true,
             'message' => 'Company store successfully',
             'data' => $company
-        ],200 );
+        );
+
+        return response()->json($reponse,200);
     }
 
     // GET /api/companies/{id}
     public function show(Company $company)
     {
-
-        return response()->json([
+        $reponse = array(
             'success' => true,
             'message' => 'Company show successfully',
             'data' => new CompanyResource($company)
-        ]);
+        );
+        return response()->json($reponse,200);
 
     }
 
@@ -54,23 +57,23 @@ class CompanyController extends Controller
     {
         $company->update($request->validated());
 
-        return response()->json([
+        $reponse = array(
             'success' => true,
-            'message' => 'Company updated successfully',
-            'data' => $company
-        ]);
+            'message' => 'Company update successfully',
+            'data' => new CompanyResource($company)
+        );
+        return response()->json($reponse,200);
     }
 
     // DELETE /api/companies/{id}
     public function destroy(Company $company)
     {
         $company->delete();
-
-        return response()->json([
+        $reponse = array(
             'success' => true,
             'message' => 'Company deleted successfully',
             'data' => $company
-
-        ]);
+        );
+        return response()->json($reponse,200);
     }
 }

@@ -15,4 +15,7 @@ class Company extends Model
         'address',
         'website',
     ];
+
+
+
 }
