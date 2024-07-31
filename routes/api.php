@@ -5,9 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CompanyController;
 
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+//Route::get('/user', function (Request $request) {
+  //  return $request->user();
+//})->middleware('auth:sanctum');
 
 
-Route::apiResource('/companies', CompanyController::class);
+Route::apiResource('companies', CompanyController::class);

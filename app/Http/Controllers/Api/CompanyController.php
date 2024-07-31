@@ -6,47 +6,37 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CompanyRequest;
 use App\Http\Resources\CompanyResource;
 use App\Models\Company;
-use Illuminate\Http\Request;
+
 
 class CompanyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // GET /api/companies
     public function index()
     {
         return CompanyResource::collection(Company::all());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    // POST /api/companies
+    public function store(CompanyRequest $request)
     {
-        $company = Company::create($request->validate());
+        $company = Company::create($request->validated());
         return new CompanyResource($company);
     }
 
-    /**
-     * Display the specified resource.
-     */
+    // GET /api/companies/{id}
     public function show(Company $company)
     {
         return new CompanyResource($company);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Company $company)
+    // PUT /api/companies/{id}
+    public function update(CompanyRequest $request, Company $company)
     {
-        $company->update($request->validate());
+        $company->update($request->validated());
         return new CompanyResource($company);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // DELETE /api/companies/{id}
     public function destroy(Company $company)
     {
         $company->delete();
