@@ -33,17 +33,16 @@ class CompanyController extends Controller
 
         $validated = $request->validated();
 
-        $sameEmail = Company::where('email', $validated['email'])->exists();
-
-        if ($sameEmail) {
+        if (Company::where('email', $validated['email'])->exists()) {
             $reponse = array(
                 'success' => false,
                 'message' => 'Email already exists',
             );
 
-            return response()->json($reponse,400);
+            return response()->json($reponse,400); //<-- changer le status
 
         }
+
 
         $company = Company::create($request->validated());
         $reponse = array(
@@ -73,14 +72,12 @@ class CompanyController extends Controller
 
         $validated = $request->validated();
 
-        $sameEmail = Company::where('email', $validated['email'])->exists();
-
-        if ($sameEmail) {
+        if (Company::where('email', $validated['email'])->exists()) {
             $reponse = array(
                 'success' => false,
                 'message' => 'Email already exists',
             );
-            return response()->json($reponse,400);
+            return response()->json($reponse,400); //<- changer le statue
         }
 
         $company->update($request->validated());

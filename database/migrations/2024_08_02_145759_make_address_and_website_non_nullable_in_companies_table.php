@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('companies', function (Blueprint $table) {
-            //
-            $table->unique('email');
+            $table->string('address')->nullable(false)->change();
+            $table->string('website')->nullable(false)->change();
         });
     }
 
@@ -23,9 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('companies', function (Blueprint $table) {
-
-            $table->dropUnique('companies_email_unique');
-
+            $table->string('address')->nullable()->change();
+            $table->string('website')->nullable()->change();
         });
     }
 };
