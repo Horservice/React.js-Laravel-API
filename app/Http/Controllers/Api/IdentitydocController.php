@@ -100,15 +100,6 @@ class IdentitydocController extends Controller
 
         return response()->json($reponse, 200);
 
-        //$identitydoc->update($request->validated());
-        //$reponse = array(
-        //  'success' => true,
-        /// 'message' => 'Identitydoc updated successfully',
-        //  'data' => new IdentitydocResource($identitydoc)
-        //);
-        //return response()->json($reponse, 200);
-
-
     }
 
     /**

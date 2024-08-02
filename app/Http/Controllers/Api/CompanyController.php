@@ -30,11 +30,26 @@ class CompanyController extends Controller
     // POST /api/companies
     public function store(CompanyRequest $request)
     {
+
+        $validated = $request->validated();
+
+        $sameEmail = Company::where('email', $validated['email'])->exists();
+
+        if ($sameEmail) {
+            $reponse = array(
+                'success' => false,
+                'message' => 'Email already exists',
+            );
+
+            return response()->json($reponse,400);
+
+        }
+
         $company = Company::create($request->validated());
         $reponse = array(
-            'success' => true,
-            'message' => 'Company store successfully',
-            'data' => $company
+        'success' => true,
+        'message' => 'Company store successfully',
+          'data' => $company
         );
 
         return response()->json($reponse,200);
@@ -55,6 +70,19 @@ class CompanyController extends Controller
     // PUT /api/companies/{id}
     public function update(CompanyRequest $request, Company $company)
     {
+
+        $validated = $request->validated();
+
+        $sameEmail = Company::where('email', $validated['email'])->exists();
+
+        if ($sameEmail) {
+            $reponse = array(
+                'success' => false,
+                'message' => 'Email already exists',
+            );
+            return response()->json($reponse,400);
+        }
+
         $company->update($request->validated());
 
         $reponse = array(
