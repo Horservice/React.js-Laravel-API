@@ -61,5 +61,4 @@ class PassportAuthController extends Controller
 
     }
 
-
 }
