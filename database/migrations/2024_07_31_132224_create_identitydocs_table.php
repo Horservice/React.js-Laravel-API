@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
 
-        Schema::create('passports', function (Blueprint $table) {
+        Schema::create('identitydocs', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('contry');
@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('dateExp'); // date de expériation
             $table->string('img');
             $table->string('fileName');
-            //si soucis plus tard avec api ajouter id:String
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('passports');
+        Schema::dropIfExists('identitydocs');
     }
 };

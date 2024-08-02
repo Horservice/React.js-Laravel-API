@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Passport extends Model
+class Identitydoc extends Model
 {
     use HasFactory;
 
@@ -16,6 +16,6 @@ class Passport extends Model
         'dateDel',
         'dateExp',
         'img',
-        'fileName'
+        'fileName',
     ];
 }
