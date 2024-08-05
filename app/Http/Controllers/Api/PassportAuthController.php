@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Hash;
 
 class PassportAuthController extends Controller
 {
@@ -13,52 +14,98 @@ class PassportAuthController extends Controller
     public function register(Request $request)
     {
 
-        $teste = $request->validate( [
+        $request->validate([
             'name' => 'required|min:4',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
+            'email' =>  'required|email|unique:users',
+            'password' => 'required|min:6|confirmed',
         ]);
 
-        //if ($teste){
-        //  return response()->json(["message" => "its not work !"], 200);
-        // }
 
-        $user = User::create([
+        User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
 
-        $token = $user->createToken('1234')->accessToken;
 
-        return response()->json(['token' => $token], 200);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User Register successfully',
+            'data' => []
+        ]);
 
-    }
-
-    public function showUserInfo(){
-
-        return response()->json(['user' => auth()->user()], 200);
 
     }
 
-    public function login(Request $request){
+    public function login(Request $request)
+    {
 
-        $teste = [
-            'email' => $request->email,
-            'password' => $request->password,
-        ];
+        $request->validate([
+            'email' =>  'required|email',
+            'password' => 'required|min:6',
+        ]);
 
-        if (auth()->attempt($teste)){
 
-            $token = auth()->user()->createToken('1234')->accessToken;
+        $user = User::where('email', $request->email)->first();
 
-            return response()->json(['token' => $token], 200);
+
+        if (!empty($user)) {
+
+            if (Hash::check($request->password, $user->password)) {
+
+                $token = $user->createToken('1234')->plainTextToken;
+
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Login successfully',
+                    'token' => $token,
+                    'data' => [],
+                ]);
+
+            } else {
+
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Wrong Password',
+                ]);
+
+            }
+
 
         } else {
 
-            return response()->json(['error' => 'error mauvais mdp'], 401); //<- changer le status
+            //utilisateur existe pas
+            return response()->json([
+                'status' => false,
+                'message' => 'email does not exist',
+                'data'=> []
+            ]);
+
         }
 
     }
+
+    public function profile(){
+
+        $userData = auth()->user();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Profile',
+            'data' => $userData,
+            'id' => auth()->user()->id
+        ]);
+    }
+
+    public function logout(){
+        auth()->user()->tokens()->delete();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Logout successfully',
+            'data' => array()
+        ]);
+    }
+
 
 }
